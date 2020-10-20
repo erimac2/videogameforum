@@ -16,8 +16,6 @@ F:\GameForum\GameForum\bin\Debug\netcoreapp3.1\GameForum.pdb
 F:\GameForum\GameForum\obj\Debug\netcoreapp3.1\GameForum.dll
 F:\GameForum\GameForum\obj\Debug\netcoreapp3.1\GameForum.pdb
 F:\GameForum\GameForum\obj\Debug\netcoreapp3.1\GameForum.genruntimeconfig.cache
-F:\GameForum\GameForum\obj\Debug\netcoreapp3.1\GameForum.csproj.CoreCompileInputs.cache
-F:\GameForum\GameForum\obj\Debug\netcoreapp3.1\GameForum.MvcApplicationPartsAssemblyInfo.cache
 F:\GameForum\GameForum\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
 F:\GameForum\GameForum\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
 F:\GameForum\GameForum\bin\Debug\netcoreapp3.1\K4os.Compression.LZ4.dll
@@ -33,3 +31,5 @@ F:\GameForum\GameForum\bin\Debug\netcoreapp3.1\System.Security.Cryptography.Prot
 F:\GameForum\GameForum\bin\Debug\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll
 F:\GameForum\GameForum\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 F:\GameForum\GameForum\obj\Debug\netcoreapp3.1\GameForum.csproj.CopyComplete
+F:\GameForum\GameForum\obj\Debug\netcoreapp3.1\GameForum.csproj.CoreCompileInputs.cache
+F:\GameForum\GameForum\obj\Debug\netcoreapp3.1\GameForum.MvcApplicationPartsAssemblyInfo.cache
