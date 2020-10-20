@@ -20,7 +20,7 @@ namespace GameForum.Controllers
             List<Game> games = Game.selectAll();
             if (games.Count == 0)
             {
-                return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
             else
             {
@@ -32,10 +32,10 @@ namespace GameForum.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            Game game = GameForum.Game.Select(id);
+            Game game = Game.Select(id);
             if (game == null)
             {
-                return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
             else
             {
@@ -50,7 +50,7 @@ namespace GameForum.Controllers
 
             if (posts.Count == 0)
             {
-                return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
             else
             {
@@ -77,7 +77,7 @@ namespace GameForum.Controllers
             }
             else
             {
-                return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
         }
 
@@ -92,7 +92,7 @@ namespace GameForum.Controllers
             }
             else
             {
-                return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
         }
     }

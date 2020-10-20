@@ -22,7 +22,7 @@ namespace GameForum.Controllers
             List<User> users = GameForum.User.selectAll();
             if(users.Count == 0)
             {
-                return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
             else
             {
@@ -37,7 +37,7 @@ namespace GameForum.Controllers
             User user = GameForum.User.Select(id);
             if (user == null)
             {
-                return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
             else
             {
@@ -64,7 +64,7 @@ namespace GameForum.Controllers
             }
             else
             {
-                return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
         }
 
@@ -79,7 +79,7 @@ namespace GameForum.Controllers
             }
             else
             {
-                return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
         }
     }

@@ -10,12 +10,12 @@ namespace GameForum
 {
     public class Comment
     {
-        public int id { get; private set; }
-        public string text { get; private set; }
-        public int likeCount { get; private set; }
-        public int fk_user { get; private set; }
-        public int fk_post { get; private set; }
-        public DateTime timeofcreation { get; private set; }
+        public int id { get; set; }
+        public string text { get; set; }
+        public int likeCount { get; set; }
+        public int fk_user { get; set; }
+        public int fk_post { get; set; }
+        public DateTime timeofcreation { get; set; }
 
         public Comment()
         {
@@ -42,7 +42,7 @@ namespace GameForum
             {
                 id = Convert.ToInt32(row["id"]),
                 text = Convert.ToString(row["text"]),
-                likeCount = Convert.ToInt32(row["likeCount"]),
+                likeCount = Convert.ToInt32(row["likecount"]),
                 fk_user = Convert.ToInt32(row["fk_user"]),
                 fk_post = Convert.ToInt32(row["fk_post"]),
                 timeofcreation = Convert.ToDateTime(row["timeofcreation"])
@@ -71,7 +71,7 @@ namespace GameForum
                 {
                     id = Convert.ToInt32(row["id"]),
                     text = Convert.ToString(row["text"]),
-                    likeCount = Convert.ToInt32(row["likeCount"]),
+                    likeCount = Convert.ToInt32(row["likecount"]),
                     fk_user = Convert.ToInt32(row["fk_user"]),
                     fk_post = Convert.ToInt32(row["fk_post"]),
                     timeofcreation = Convert.ToDateTime(row["timeofcreation"])
@@ -95,7 +95,7 @@ namespace GameForum
         }
         public static bool Create(Comment comment)
         {
-            string sql = $"INSERT INTO `comment` (`text`, `likeCount`, `fk_user`, `fk_post`, `timeofcreation`) VALUES ('{comment.text}', '{comment.likeCount}', '{comment.fk_user}', '{comment.fk_post}', '{comment.timeofcreation}')";
+            string sql = $"INSERT INTO `comment` (`text`, `likecount`, `fk_user`, `fk_post`, `timeofcreation`) VALUES ('{comment.text}', '{comment.likeCount}', '{comment.fk_user}', '{comment.fk_post}', '{comment.timeofcreation}')";
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
             MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
@@ -133,7 +133,7 @@ namespace GameForum
         }
         public static bool Update(int id, Comment comment)
         {
-            string sql = $"UPDATE `comment` SET `text` = '{comment.text}', `likeCount` = '{comment.likeCount}', `fk_user` = '{comment.fk_user}'," +
+            string sql = $"UPDATE `comment` SET `text` = '{comment.text}', `likecount` = '{comment.likeCount}', `fk_user` = '{comment.fk_user}'," +
                 $" `fk_post` = '{comment.fk_post}', `timeofcreation` = '{comment.timeofcreation}' WHERE `comment`.`id` = {id}";
 
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;

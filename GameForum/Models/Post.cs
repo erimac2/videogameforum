@@ -10,13 +10,13 @@ namespace GameForum
 {
     public class Post
     {
-        public int id { get; private set; }
-        public string title { get; private set; }
-        public int likeCount { get; private set; }
-        public int commentCount { get; private set; }
-        public int fk_user { get; private set; }
-        public int fk_game { get; private set; }
-        public DateTime timeofcreation { get; private set; }
+        public int id { get; set; }
+        public string title { get; set; }
+        public int likeCount { get; set; }
+        public int commentCount { get; set; }
+        public int fk_user { get; set; }
+        public int fk_game { get; set; }
+        public DateTime timeofcreation { get; set; }
 
         public Post()
         {
