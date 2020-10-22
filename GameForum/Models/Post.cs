@@ -75,6 +75,7 @@ namespace GameForum
                     likeCount = Convert.ToInt32(row["likecount"]),
                     commentCount = Convert.ToInt32(row["commentcount"]),
                     fk_user = Convert.ToInt32(row["fk_user"]),
+                    fk_game = Convert.ToInt32(row["fk_game"]),
                     timeofcreation = Convert.ToDateTime(row["timeofcreation"])
                 };
                 list.Add(post);
@@ -106,6 +107,7 @@ namespace GameForum
                     likeCount = Convert.ToInt32(row["likecount"]),
                     commentCount = Convert.ToInt32(row["commentcount"]),
                     fk_user = Convert.ToInt32(row["fk_user"]),
+                    fk_game = Convert.ToInt32(row["fk_game"]),
                     timeofcreation = Convert.ToDateTime(row["timeofcreation"])
                 };
                 list.Add(post);
@@ -166,7 +168,7 @@ namespace GameForum
         public static bool Update(int id, Post post)
         {
             string sql = $"UPDATE `post` SET `title` = '{post.title}', `likecount` = '{post.likeCount}', `commentcount` = '{post.commentCount}', `fk_user` = '{post.fk_user}'," +
-                $" `fk_game` = '{post.fk_game}', `timeofcreation` = '{post.timeofcreation}' WHERE `post`.`id` = {id}";
+                $" `fk_game` = '{post.fk_game}', `timeofcreation` = '{post.timeofcreation.ToString("yyyy-MM-dd HH:mm:ss.fff")}' WHERE `post`.`id` = {id}";
 
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);

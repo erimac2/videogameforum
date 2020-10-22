@@ -42,8 +42,8 @@ namespace GameForum.Controllers
                 return StatusCode(StatusCodes.Status200OK, game);
             }
         }
-        // GET api/<GameController>/posts/5
-        [HttpGet("posts/{id}")]
+        // GET api/<GameController>/5/posts
+        [HttpGet("{id}/posts")]
         public IActionResult Posts(int id)
         {
             List<Post> posts = GameForum.Post.SelectAllInGame(id);

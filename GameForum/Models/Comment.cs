@@ -95,7 +95,7 @@ namespace GameForum
         }
         public static bool Create(Comment comment)
         {
-            string sql = $"INSERT INTO `comment` (`text`, `likecount`, `fk_user`, `fk_post`, `timeofcreation`) VALUES ('{comment.text}', '{comment.likeCount}', '{comment.fk_user}', '{comment.fk_post}', '{comment.timeofcreation}')";
+            string sql = $"INSERT INTO `comment` (`text`, `likecount`, `fk_user`, `fk_post`, `timeofcreation`) VALUES ('{comment.text}', '{comment.likeCount}', '{comment.fk_user}', '{comment.fk_post}', '{comment.timeofcreation.ToString("yyyy-MM-dd HH:mm:ss.fff")}')";
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
             MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
@@ -134,7 +134,7 @@ namespace GameForum
         public static bool Update(int id, Comment comment)
         {
             string sql = $"UPDATE `comment` SET `text` = '{comment.text}', `likecount` = '{comment.likeCount}', `fk_user` = '{comment.fk_user}'," +
-                $" `fk_post` = '{comment.fk_post}', `timeofcreation` = '{comment.timeofcreation}' WHERE `comment`.`id` = {id}";
+                $" `fk_post` = '{comment.fk_post}', `timeofcreation` = '{comment.timeofcreation.ToString("yyyy-MM-dd HH:mm:ss.fff")}' WHERE `comment`.`id` = {id}";
 
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
