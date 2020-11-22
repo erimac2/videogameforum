@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using GameForum.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +16,14 @@ namespace GameForum.Controllers
     [ApiController]
     public class GameController : ControllerBase
     {
+        private IUserService _userService;
+
+        public GameController(IUserService userService)
+        {
+            _userService = userService;
+        }
         // GET: api/<GameController>
+        [AllowAnonymous]
         public IActionResult Get()
         {
             List<Game> games = Game.selectAll();
@@ -29,6 +38,7 @@ namespace GameForum.Controllers
         }
 
         // GET api/<GameController>/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -43,6 +53,7 @@ namespace GameForum.Controllers
             }
         }
         // GET api/<GameController>/5/posts
+        [AllowAnonymous]
         [HttpGet("{id}/posts")]
         public IActionResult Posts(int id)
         {
@@ -57,19 +68,32 @@ namespace GameForum.Controllers
                 return StatusCode(StatusCodes.Status200OK, posts);
             }
         }
-
         // POST api/<GameController>
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult Post([FromBody] Game game)
         {
+            string accessToken = HttpContext.Request.Headers["Authorization"];
+            int bearerId = _userService.GetId(accessToken);
+            if (!Entities.User.IsOnline(bearerId))
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, new { message = "User not logged in" });
+            }
             Game.Create(game);
             return StatusCode(StatusCodes.Status201Created);
         }
 
         // PUT api/<GameController>/5
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Game game)
         {
+            string accessToken = HttpContext.Request.Headers["Authorization"];
+            int bearerId = _userService.GetId(accessToken);
+            if (!Entities.User.IsOnline(bearerId))
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, new { message = "User not logged in" });
+            }
             if (Game.CheckExists(id))
             {
                 Game.Update(id, game);
@@ -82,9 +106,16 @@ namespace GameForum.Controllers
         }
 
         // DELETE api/<GameController>/5
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            string accessToken = HttpContext.Request.Headers["Authorization"];
+            int bearerId = _userService.GetId(accessToken);
+            if (!Entities.User.IsOnline(bearerId))
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, new { message = "User not logged in" });
+            }
             if (Game.CheckExists(id))
             {
                 Game.Delete(id);

@@ -81,6 +81,68 @@ namespace GameForum
 
             return list;
         }
+        public static List<Comment> SelectAllInPost(int id)
+        {
+            string sql = $"SELECT * FROM comment WHERE fk_post = {id}";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            DataTable dt = new DataTable();
+            mda.Fill(dt);
+            mySqlConnection.Close();
+            mda.Dispose();
+
+
+            List<Comment> list = new List<Comment>();
+            foreach (DataRow row in dt.Rows)
+            {
+                Comment comment = new Comment
+                {
+                    id = Convert.ToInt32(row["id"]),
+                    text = Convert.ToString(row["text"]),
+                    likeCount = Convert.ToInt32(row["likecount"]),
+                    fk_user = Convert.ToInt32(row["fk_user"]),
+                    fk_post = Convert.ToInt32(row["fk_post"]),
+                    timeofcreation = Convert.ToDateTime(row["timeofcreation"])
+                };
+                list.Add(comment);
+            }
+
+            return list;
+        }
+        public static List<Comment> SelectAllByUser(int id)
+        {
+            string sql = $"SELECT * FROM comment WHERE fk_user = {id}";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            DataTable dt = new DataTable();
+            mda.Fill(dt);
+            mySqlConnection.Close();
+            mda.Dispose();
+
+
+            List<Comment> list = new List<Comment>();
+            foreach (DataRow row in dt.Rows)
+            {
+                Comment comment = new Comment
+                {
+                    id = Convert.ToInt32(row["id"]),
+                    text = Convert.ToString(row["text"]),
+                    likeCount = Convert.ToInt32(row["likecount"]),
+                    fk_user = Convert.ToInt32(row["fk_user"]),
+                    fk_post = Convert.ToInt32(row["fk_post"]),
+                    timeofcreation = Convert.ToDateTime(row["timeofcreation"])
+                };
+                list.Add(comment);
+            }
+
+            return list;
+        }
         public static bool Delete(int id)
         {
             string sqlquery = $"DELETE FROM `comment` WHERE `comment`.`id` = {id}";

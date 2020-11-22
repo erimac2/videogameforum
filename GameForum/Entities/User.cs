@@ -5,8 +5,10 @@ using System.Configuration;
 using System.Data;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System.Text.Json.Serialization;
+using System.Diagnostics;
 
-namespace GameForum
+namespace GameForum.Entities
 {
     public class User
     {
@@ -16,10 +18,11 @@ namespace GameForum
         public UserRole role { get; set; }
         public string email { get; set; }
         public DateTime dateofbirth { get; set; }
+        public string token { get; set; }
 
         public User()
         {
-
+            token = "";
         }
         public static bool Create(User user)
         {
@@ -32,6 +35,57 @@ namespace GameForum
             mySqlConnection.Close();
 
             return true;
+        }
+        public static bool Login(int id)
+        {
+            string sql = $"UPDATE `user` SET `online` = '{1}' WHERE `user`.`id` = {id}";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            mySqlCommand.ExecuteNonQuery();
+            mySqlConnection.Close();
+
+            return true;
+        }
+        public static bool Logout(int id)
+        {
+            string sql = $"UPDATE `user` SET `online` = '{0}' WHERE `user`.`id` = {id}";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            mySqlCommand.ExecuteNonQuery();
+            mySqlConnection.Close();
+
+            return true;
+        }
+        public static bool IsOnline(int id)
+        {
+            string sql = $"SELECT online FROM `user` WHERE `user`.`id` = {id}";
+
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            DataTable dt = new DataTable();
+            mda.Fill(dt);
+            mySqlConnection.Close();
+            mda.Dispose();
+
+            var row = dt.Rows[0];
+            int online = Convert.ToInt32(row[0]);
+            Debug.WriteLine("This is status: " + online);
+
+            if(online == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public static bool Delete(int id)
         {

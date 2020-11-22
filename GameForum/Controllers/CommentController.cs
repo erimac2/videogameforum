@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
+using GameForum.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,7 +17,14 @@ namespace GameForum.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
+        private IUserService _userService;
+
+        public CommentController(IUserService userService)
+        {
+            _userService = userService;
+        }
         // GET: api/<CommentController>
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -31,6 +40,7 @@ namespace GameForum.Controllers
         }
 
         // GET api/<CommentController>/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -44,19 +54,36 @@ namespace GameForum.Controllers
                 return StatusCode(StatusCodes.Status200OK, comment);
             }
         }
-
         // POST api/<CommentController>
+        [Authorize]
         [HttpPost]
         public IActionResult Post([FromBody] Comment comment)
         {
+            string accessToken = HttpContext.Request.Headers["Authorization"];
+            int bearerId = _userService.GetId(accessToken);
+            if (!Entities.User.IsOnline(bearerId))
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, new { message = "User not logged in" });
+            }
             Comment.Create(comment);
             return StatusCode(StatusCodes.Status201Created);
         }
 
         // PUT api/<CommentController>/5
+        [Authorize]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Comment comment)
         {
+            string accessToken = HttpContext.Request.Headers["Authorization"];
+            int bearerId = _userService.GetId(accessToken);
+            if (!Entities.User.IsOnline(bearerId))
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, new { message = "User not logged in" });
+            }
+            if(bearerId != id)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, new { message = "Incorrect id" });
+            }
             if (Comment.CheckExists(id))
             {
                 Comment.Update(id, comment);
@@ -69,9 +96,21 @@ namespace GameForum.Controllers
         }
 
         // DELETE api/<CommentController>/5
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            string accessToken = HttpContext.Request.Headers["Authorization"];
+            int bearerId = _userService.GetId(accessToken);
+            if (!Entities.User.IsOnline(bearerId))
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, new { message = "User not logged in" });
+            }
+            Comment comment = GameForum.Comment.Select(id);
+            if (bearerId != comment.fk_user)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, new { message = "Incorrect id" });
+            }
             if (Comment.CheckExists(id))
             {
                 Comment.Delete(id);
